@@ -8,21 +8,16 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
-      # Your db/*.sql files. Postgres runs everything in here in
-      # alphabetical order, but ONLY on the very first boot when the
-      # pgdata volume is empty. See the README before you edit them.
-      - ../db:/docker-entrypoint-initdb.d:ro
+      - ./db:/docker-entrypoint-initdb.d:ro        # was ../db
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 10
-    # No ports section on purpose. The database is reachable at
-    # hostname "db" from other compose services and from nowhere else.
 
   app:
     build:
-      context: ..
+      context: .                                    # was ..
       dockerfile: deploy/Dockerfile
     restart: unless-stopped
     environment:
@@ -32,7 +27,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # Only Caddy talks to the app. Nothing is published to the host.
 
   caddy:
     image: caddy:2
@@ -43,7 +37,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro  # was ./Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
