@@ -1,12 +1,10 @@
 .git
 .gitignore
 node_modules
-__pycache__
-*.pyc
+npm-debug.log
 .env
 .env.*
 !.env.example
+db/
 backups/
 *.md
-.venv
-dist

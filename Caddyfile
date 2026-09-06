@@ -1,24 +1,14 @@
-# Caddy handles TLS automatically. Point SITE_DOMAIN's DNS A record at
-# this VM and Caddy fetches a Let's Encrypt certificate on first boot.
-{$SITE_DOMAIN} {
+# LAN deployment: no public DNS name, so no Let's Encrypt. Plain HTTP on
+# the private network. Swap this block for {$SITE_DOMAIN} and delete the
+# http:// prefix once the VM has a real hostname.
+http://192.168.68.15, http://localhost {
     encode gzip
-
-    # app:3000 resolves over the compose network. The app container
-    # publishes nothing to the host, so this is the only way in.
     reverse_proxy app:3000
 
     header {
-        Strict-Transport-Security "max-age=31536000; includeSubDomains"
         X-Content-Type-Options "nosniff"
         X-Frame-Options "DENY"
         Referrer-Policy "strict-origin-when-cross-origin"
         -Server
-    }
-
-    log {
-        output file /data/access.log {
-            roll_size 10MiB
-            roll_keep 5
-        }
     }
 }
