@@ -1,0 +1,39 @@
+# Secrets. The DB password lives here. Never commit.
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Dependencies. package-lock.json IS committed; node_modules is not.
+node_modules/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Backups produced by backup.sh
+backups/
+*.sql.gz
+*.dump
+
+# Runtime and build output
+dist/
+build/
+*.log
+logs/
+.cache/
+
+# Caddy state if it ever gets bind-mounted instead of using a volume
+caddy_data/
+caddy_config/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
