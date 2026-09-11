@@ -177,6 +177,8 @@ SELECT add_spec('fpv','frame','layout','Arm Layout','enum',NULL,ARRAY['true-x','
 -- Flight controller
 SELECT add_spec('fpv','fc','stack_mount_mm','Stack Mounting','enum','mm',ARRAY['16','20','25.5','30.5'],TRUE,TRUE);
 SELECT add_spec('fpv','fc','mcu','MCU','enum',NULL,ARRAY['F405','F411','F722','H743'],TRUE,TRUE);
+-- An AIO board carries its own ESC, which covers the ESC row.
+SELECT add_spec('fpv','fc','includes_esc','ESC Onboard','boolean',NULL,NULL,TRUE,TRUE);
 SELECT add_spec('fpv','fc','gyro','Gyro','text',NULL,NULL,FALSE,FALSE);
 SELECT add_spec('fpv','fc','uart_count','UARTs','integer',NULL,NULL,FALSE,TRUE);
 SELECT add_spec('fpv','fc','cells_min','Min Cells','integer','S',NULL,TRUE,FALSE);
@@ -210,10 +212,15 @@ SELECT add_spec('fpv','prop','shaft_hole_mm','Shaft Hole','number','mm',NULL,TRU
 SELECT add_spec('fpv','prop','material','Material','enum',NULL,ARRAY['polycarbonate','nylon','carbon-composite'],FALSE,TRUE);
 
 -- VTX
+-- includes_camera sits second so it lands in the picker's four columns.
+-- Mounting drops out of them, which costs nothing: no rule keys off it,
+-- while "does this come with a camera" changes what else you have to buy.
 SELECT add_spec('fpv','vtx','video_system','Video System','enum',NULL,ARRAY['analog','digital'],TRUE,TRUE);
+SELECT add_spec('fpv','vtx','includes_camera','Camera Included','boolean',NULL,NULL,TRUE,TRUE);
 SELECT add_spec('fpv','vtx','power_mw_max','Max Output Power','integer','mW',NULL,TRUE,TRUE);
-SELECT add_spec('fpv','vtx','mount_mm','Mounting','enum','mm',ARRAY['16','20','25.5','30.5'],TRUE,TRUE);
 SELECT add_spec('fpv','vtx','antenna_connector','Antenna Connector','enum',NULL,ARRAY['MMCX','U.FL','SMA','RP-SMA'],TRUE,TRUE);
+SELECT add_spec('fpv','vtx','includes_antenna','Antenna Included','boolean',NULL,NULL,TRUE,TRUE);
+SELECT add_spec('fpv','vtx','mount_mm','Mounting','enum','mm',ARRAY['16','20','25.5','30.5'],TRUE,TRUE);
 SELECT add_spec('fpv','vtx','cells_min','Min Cells','integer','S',NULL,TRUE,FALSE);
 SELECT add_spec('fpv','vtx','cells_max','Max Cells','integer','S',NULL,TRUE,FALSE);
 

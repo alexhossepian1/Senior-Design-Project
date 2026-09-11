@@ -88,7 +88,7 @@ docker compose exec db psql -U rcpp_app -d rcpp \
   -c "SET search_path TO rcpp; SELECT count(*) FROM variants;"
 ```
 
-You should get 1360, spread over 57 part types in 5 build types.
+You should get 1361, spread over 57 part types in 5 build types.
 
 The last seed file (`13_verify.sql`) prints a summary and warns about data
 problems as the database initialises. It never fails the load, so read it:
@@ -156,6 +156,7 @@ gunzip -c ~/backups/rcpp-XXXX.sql.gz | docker compose exec -T db psql -U rcpp_ap
 | Task | Command |
 |---|---|
 | Deploy new code | `git pull && docker compose up -d --build app` |
+| Deploy new code **and reload the seed data** | `git pull && docker compose down -v && docker compose up -d --build` |
 | App logs | `docker compose logs -f app` |
 | psql shell | `docker compose exec db psql -U rcpp_app -d rcpp` |
 | Restart one service | `docker compose restart app` |

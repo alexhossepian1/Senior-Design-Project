@@ -170,6 +170,35 @@ CREATE TABLE compat_rules (
 CREATE INDEX idx_compat_rules_domain ON compat_rules(domain_id) WHERE is_active;
 
 -- ---------------------------------------------------------------------
+-- Bundled parts
+--
+-- Some parts are sold as a kit that covers another row of the build
+-- sheet outright. A DJI O3 Air Unit is the camera, the transmitter and
+-- the antennas in one box; an AIO flight controller is the FC and the
+-- ESC on one board. Picking one of those should satisfy the row it
+-- covers, not leave the sheet nagging for a part you already own.
+--
+-- Read a row as: when the selected <source_cat> part has <source_key>
+-- true, <covered_cat> is already taken care of.
+--
+-- Data, like the compatibility rules. Nothing about "VTX" or "camera"
+-- is hardcoded in the app.
+-- ---------------------------------------------------------------------
+
+CREATE TABLE bundle_rules (
+    id             SERIAL PRIMARY KEY,
+    domain_id      SMALLINT NOT NULL REFERENCES domains(id) ON DELETE CASCADE,
+    source_cat_id  INT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+    source_key     TEXT NOT NULL,
+    covered_cat_id INT NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+    note           TEXT NOT NULL,
+    is_active      BOOLEAN NOT NULL DEFAULT TRUE,
+    UNIQUE (source_cat_id, source_key, covered_cat_id)
+);
+
+CREATE INDEX idx_bundle_rules_domain ON bundle_rules(domain_id) WHERE is_active;
+
+-- ---------------------------------------------------------------------
 -- Users and builds
 -- ---------------------------------------------------------------------
 

@@ -70,6 +70,20 @@ SELECT pick('broken-5in-freestyle','fpv','Lollipop 4',           'SMA RHCP');   
 SELECT pick('broken-5in-freestyle','fpv','RP1 ExpressLRS',       '2.4GHz');
 SELECT pick('broken-5in-freestyle','fpv','Black Series',         '6S 1300mAh 100C XT60'); -- 6S into a 4S motor
 
+-- A digital build. There is deliberately no camera and no antenna here:
+-- the O3 Air Unit is both, and the build sheet should show those rows as
+-- included rather than missing.
+SELECT new_demo_build('fpv', '5in Digital O3 - Clean', 'clean-5in-digital');
+
+SELECT pick('clean-5in-digital','fpv','Nazgul5 V3 Frame Kit',      '5 inch');
+SELECT pick('clean-5in-digital','fpv','F405 V4 Flight Controller', '30.5x30.5');
+SELECT pick('clean-5in-digital','fpv','BLS 60A 4-in-1 ESC',        '30.5x30.5 60A');
+SELECT pick('clean-5in-digital','fpv','F60 Pro V',                 '1750KV', 4);
+SELECT pick('clean-5in-digital','fpv','5x4.3x3 V1S',               'Set of 4', 2);
+SELECT pick('clean-5in-digital','fpv','O3 Air Unit',               '700mW');
+SELECT pick('clean-5in-digital','fpv','RP1 ExpressLRS',            '2.4GHz');
+SELECT pick('clean-5in-digital','fpv','Black Series',              '6S 1300mAh 100C XT60', 2);
+
 -- =====================================================================
 -- RC plane
 -- =====================================================================

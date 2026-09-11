@@ -19,6 +19,34 @@ CREATE OR REPLACE FUNCTION add_rule(
   FROM domains d WHERE d.slug = p_domain;
 $$ LANGUAGE sql;
 
+CREATE OR REPLACE FUNCTION add_bundle(
+    p_domain TEXT,
+    p_source_cat TEXT, p_source_key TEXT,
+    p_covered_cat TEXT,
+    p_note TEXT
+) RETURNS VOID AS $$
+  INSERT INTO bundle_rules
+    (domain_id, source_cat_id, source_key, covered_cat_id, note)
+  SELECT d.id, cat(p_domain, p_source_cat), p_source_key,
+         cat(p_domain, p_covered_cat), p_note
+  FROM domains d WHERE d.slug = p_domain;
+$$ LANGUAGE sql;
+
+-- =====================================================================
+-- FPV bundles
+--
+-- Digital video is sold as a system, not as parts. A DJI O3 Air Unit or
+-- a Walksnail kit is the camera, the transmitter and the antennas in one
+-- box. HDZero is the exception and stays modular: you buy its VTX and
+-- its camera separately, which is why it is not listed here.
+-- =====================================================================
+SELECT add_bundle('fpv','vtx','includes_camera','camera',
+  'This video system ships with its camera.');
+SELECT add_bundle('fpv','vtx','includes_antenna','antenna',
+  'This video system ships with its antennas.');
+SELECT add_bundle('fpv','fc','includes_esc','esc',
+  'This is an AIO board with the ESC built in.');
+
 -- =====================================================================
 -- FPV rules
 -- =====================================================================
@@ -378,8 +406,26 @@ RETURNS TABLE (
       AND NOT rule_holds(r.op, r.is_numeric, a.specs->>r.key_a, b.specs->>r.key_b);
 $$ LANGUAGE sql STABLE;
 
+-- Which rows of the build sheet are already covered by a kit that is in
+-- the build. One row per covered category, naming the part that covers
+-- it so the sheet can say where it came from.
+CREATE OR REPLACE FUNCTION bundled_categories(p_build_id INT)
+RETURNS TABLE (category_slug TEXT, covered_by TEXT, note TEXT) AS $$
+    SELECT DISTINCT ON (cc.slug)
+           cc.slug, src.part_name, br.note
+    FROM bundle_rules br
+    JOIN v_build_picks src
+      ON src.build_id = p_build_id AND src.category_id = br.source_cat_id
+    JOIN categories cc ON cc.id = br.covered_cat_id
+    WHERE br.is_active
+      AND src.specs ? br.source_key
+      AND (src.specs->>br.source_key)::boolean
+    ORDER BY cc.slug, src.part_name;
+$$ LANGUAGE sql STABLE;
+
 -- Which required categories are still empty. Drives the "Choose A ..."
--- buttons in the screenshot.
+-- buttons in the screenshot. A category covered by a bundled kit is not
+-- missing: you already bought it, it just came in someone else's box.
 CREATE OR REPLACE FUNCTION missing_required(p_build_id INT)
 RETURNS TABLE (category_slug TEXT, category_name TEXT, sort_order SMALLINT) AS $$
     SELECT c.slug, c.name, c.sort_order
@@ -390,6 +436,10 @@ RETURNS TABLE (category_slug TEXT, category_name TEXT, sort_order SMALLINT) AS $
       AND NOT EXISTS (
           SELECT 1 FROM v_build_picks pk
           WHERE pk.build_id = p_build_id AND pk.category_id = c.id
+      )
+      AND NOT EXISTS (
+          SELECT 1 FROM bundled_categories(p_build_id) bc
+          WHERE bc.category_slug = c.slug
       )
     ORDER BY c.sort_order;
 $$ LANGUAGE sql STABLE;

@@ -98,6 +98,15 @@ export async function getMissingRequired(buildId) {
   return q('SELECT category_slug, category_name FROM missing_required($1)', [buildId]);
 }
 
+// Rows of the sheet that a kit already covers, keyed by category slug.
+export async function getBundled(buildId) {
+  const rows = await q(
+    'SELECT category_slug, covered_by, note FROM bundled_categories($1)',
+    [buildId]
+  );
+  return Object.fromEntries(rows.map((r) => [r.category_slug, r]));
+}
+
 export async function getCategory(domainId, slug) {
   const rows = await q(
     'SELECT id, slug, name, is_required, default_qty, max_qty FROM categories WHERE domain_id = $1 AND slug = $2',

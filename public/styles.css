@@ -403,6 +403,27 @@ a { color: inherit; }
 
 .linkbtn:hover { color: var(--bad); }
 
+/* A row covered by a kit: present, paid for, nothing to choose. */
+
+.included { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+
+.included__tag {
+  padding: 0.15rem 0.5rem;
+  background: var(--good-bg);
+  color: var(--good);
+  font-variation-settings: 'wdth' 90, 'wght' 650;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.included__src { color: var(--ink-2); font-size: 0.9rem; }
+
+.linkbtn--quiet { font-size: 0.8rem; text-decoration: none; border-bottom: 1px solid var(--rule); }
+.linkbtn--quiet:hover { color: var(--accent); border-color: currentColor; }
+
+.row--included th { color: var(--ink-2); }
+
 /* Picker specifics */
 
 .filterbar {

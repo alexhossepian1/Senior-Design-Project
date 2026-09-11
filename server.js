@@ -53,13 +53,14 @@ app.get('/b/:domain', wrap(async (req, res) => {
   if (!domain) return res.status(404).send(v.errorPage('No such build type.'));
 
   const buildId = await resolveBuild(req, res, domain);
-  const [sheet, issues, totals, missing] = await Promise.all([
+  const [sheet, issues, totals, missing, bundled] = await Promise.all([
     db.getBuildSheet(buildId),
     db.checkBuild(buildId),
     db.getTotals(buildId),
     db.getMissingRequired(buildId),
+    db.getBundled(buildId),
   ]);
-  res.send(v.buildPage({ domain, sheet, issues, totals, missing }));
+  res.send(v.buildPage({ domain, sheet, issues, totals, missing, bundled }));
 }));
 
 app.get('/b/:domain/pick/:cat', wrap(async (req, res) => {

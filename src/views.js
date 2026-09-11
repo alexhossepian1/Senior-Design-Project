@@ -277,7 +277,7 @@ export function domainPage(family, domains) {
 /* Build sheet                                                         */
 /* ------------------------------------------------------------------ */
 
-export function buildPage({ domain, sheet, issues, totals, missing }) {
+export function buildPage({ domain, sheet, issues, totals, missing, bundled = {} }) {
   const errors = issues.filter((i) => i.severity === 'error');
   const warnings = issues.filter((i) => i.severity === 'warning');
 
@@ -304,26 +304,43 @@ export function buildPage({ domain, sheet, issues, totals, missing }) {
 
   const rows = sheet
     .map((r) => {
-      const cell = r.variant_id
-        ? `<div class="chosen">
+      const kit = bundled[r.category_slug];
+      const pickUrl = `/b/${esc(domain.slug)}/pick/${esc(r.category_slug)}`;
+
+      let cell;
+      if (r.variant_id) {
+        // Picked outright. If a kit also covers this row, say so: the part
+        // is a spare or a swap, not a thing they needed to buy.
+        cell = `<div class="chosen">
              <span class="chosen__name">${esc(r.part_name)}</span>
              <form method="post" action="/b/${esc(domain.slug)}/remove">
                <input type="hidden" name="variant_id" value="${r.variant_id}">
                <button class="linkbtn" type="submit">Remove</button>
              </form>
-           </div>`
-        : `<a class="pick" href="/b/${esc(domain.slug)}/pick/${esc(r.category_slug)}">
+           </div>
+           ${kit ? `<p class="why why--warn">${esc(kit.covered_by)} already includes one. This is a spare unless you are replacing it.</p>` : ''}`;
+      } else if (kit) {
+        cell = `<div class="included">
+             <span class="included__tag">Included</span>
+             <span class="included__src">with ${esc(kit.covered_by)}</span>
+             <a class="linkbtn linkbtn--quiet" href="${pickUrl}">Pick a different one</a>
+           </div>`;
+      } else {
+        cell = `<a class="pick" href="${pickUrl}">
              <span class="pick__plus" aria-hidden="true">+</span>Choose ${esc(r.category_name.toLowerCase())}
            </a>`;
+      }
 
-      return `<tr class="${r.variant_id ? 'row--set' : ''}">
+      const cls = r.variant_id ? 'row--set' : kit ? 'row--included' : '';
+
+      return `<tr class="${cls}">
         <th scope="row">
           ${esc(r.category_name)}
           ${r.is_required ? '' : '<span class="opt">optional</span>'}
         </th>
         <td>${cell}</td>
-        <td class="num">${r.default_qty > 1 ? '&times;' + r.default_qty : ''}</td>
-        <td class="num">${r.variant_id ? money(r.line_cents) : ''}</td>
+        <td class="num">${r.variant_id && r.default_qty > 1 ? '&times;' + r.default_qty : ''}</td>
+        <td class="num">${r.variant_id ? money(r.line_cents) : kit ? '<span class="unit">in kit</span>' : ''}</td>
       </tr>`;
     })
     .join('');

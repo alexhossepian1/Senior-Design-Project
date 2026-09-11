@@ -115,6 +115,7 @@ END $$;
 DO $$
 DECLARE
     r RECORD;
+    bc RECORD;
 BEGIN
     FOR r IN
         SELECT b.public_slug,
@@ -129,6 +130,12 @@ BEGIN
     LOOP
         RAISE NOTICE 'rcpp: build % - % parts, % errors, % warnings',
             r.public_slug, r.items, r.errors, r.warnings;
+
+        FOR bc IN SELECT category_slug, covered_by FROM bundled_categories(
+                     (SELECT id FROM builds WHERE public_slug = r.public_slug))
+        LOOP
+            RAISE NOTICE 'rcpp:     % covered by %', bc.category_slug, bc.covered_by;
+        END LOOP;
 
         IF r.items = 0 THEN
             RAISE WARNING 'rcpp: demo build % is empty, a pick() lookup did not match',

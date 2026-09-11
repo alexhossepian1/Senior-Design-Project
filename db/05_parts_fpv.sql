@@ -64,51 +64,51 @@ SELECT add_part('fpv','frame','Axisflying','Manta 3.6 Frame','3.6 inch', 5499, 6
 -- Flight controllers
 -- ---------------------------------------------------------------------
 SELECT add_part('fpv','fc','SpeedyBee','F405 V4 Flight Controller','30.5x30.5', 3199, 9.5,
- '{"stack_mount_mm":"30.5","mcu":"F405","gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F405","includes_esc":false,"gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','SpeedyBee','F405 Mini Flight Controller','20x20', 2999, 6,
- '{"stack_mount_mm":"20","mcu":"F405","gyro":"ICM42688P","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"20","mcu":"F405","includes_esc":false,"gyro":"ICM42688P","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','SpeedyBee','F722 V4 Flight Controller','30.5x30.5', 3999, 10,
- '{"stack_mount_mm":"30.5","mcu":"F722","gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F722","includes_esc":false,"gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','SpeedyBee','F405 V3 Flight Controller','30.5x30.5', 2799, 9,
- '{"stack_mount_mm":"30.5","mcu":"F405","gyro":"MPU6000","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F405","includes_esc":false,"gyro":"MPU6000","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Diatone','Mamba F722 MK4','30.5x30.5', 4599, 10,
- '{"stack_mount_mm":"30.5","mcu":"F722","gyro":"MPU6000","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F722","includes_esc":false,"gyro":"MPU6000","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Diatone','Mamba F405 MK4','30.5x30.5', 3799, 9,
- '{"stack_mount_mm":"30.5","mcu":"F405","gyro":"ICM42688P","uart_count":5,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F405","includes_esc":false,"gyro":"ICM42688P","uart_count":5,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Diatone','Mamba F411 Mini MK3','20x20', 2599, 5.5,
- '{"stack_mount_mm":"20","mcu":"F411","gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":false}');
+ '{"stack_mount_mm":"20","mcu":"F411","includes_esc":false,"gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":false}');
 SELECT add_part('fpv','fc','HGLRC','Zeus F722 Mini','20x20', 3999, 6,
- '{"stack_mount_mm":"20","mcu":"F722","gyro":"ICM42688P","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"20","mcu":"F722","includes_esc":false,"gyro":"ICM42688P","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','HGLRC','Zeus F722 V2','30.5x30.5', 4299, 9.8,
- '{"stack_mount_mm":"30.5","mcu":"F722","gyro":"ICM20689","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F722","includes_esc":false,"gyro":"ICM20689","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','iFlight','BLITZ F722 Flight Controller','30.5x30.5', 4299, 9.6,
- '{"stack_mount_mm":"30.5","mcu":"F722","gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F722","includes_esc":false,"gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','iFlight','BLITZ Mini F411','20x20', 2399, 5,
- '{"stack_mount_mm":"20","mcu":"F411","gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":false}');
+ '{"stack_mount_mm":"20","mcu":"F411","includes_esc":false,"gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":false}');
 SELECT add_part('fpv','fc','iFlight','BLITZ F405 V2','30.5x30.5', 3599, 9,
- '{"stack_mount_mm":"30.5","mcu":"F405","gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F405","includes_esc":false,"gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','T-Motor','F7 HD Flight Controller','30.5x30.5', 4999, 10.5,
- '{"stack_mount_mm":"30.5","mcu":"F722","gyro":"MPU6000","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F722","includes_esc":false,"gyro":"MPU6000","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','T-Motor','F411 Flight Controller','20x20', 2699, 5.2,
- '{"stack_mount_mm":"20","mcu":"F411","gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":false}');
+ '{"stack_mount_mm":"20","mcu":"F411","includes_esc":false,"gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":false}');
 SELECT add_part('fpv','fc','Matek','F405-CTR','30.5x30.5', 3499, 10,
- '{"stack_mount_mm":"30.5","mcu":"F405","gyro":"MPU6000","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F405","includes_esc":false,"gyro":"MPU6000","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Matek','H743-SLIM','30.5x30.5', 8999, 12,
- '{"stack_mount_mm":"30.5","mcu":"H743","gyro":"ICM42688P","uart_count":7,"cells_min":2,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"H743","includes_esc":false,"gyro":"ICM42688P","uart_count":7,"cells_min":2,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Matek','F411-WSE','20x20', 2299, 5,
- '{"stack_mount_mm":"20","mcu":"F411","gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":true}');
+ '{"stack_mount_mm":"20","mcu":"F411","includes_esc":false,"gyro":"MPU6000","uart_count":3,"cells_min":2,"cells_max":4,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Holybro','Kakute H7 V2','30.5x30.5', 7999, 11,
- '{"stack_mount_mm":"30.5","mcu":"H743","gyro":"ICM42688P","uart_count":7,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"H743","includes_esc":false,"gyro":"ICM42688P","uart_count":7,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Holybro','Kakute F7 Mini','20x20', 4499, 6,
- '{"stack_mount_mm":"20","mcu":"F722","gyro":"MPU6000","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"20","mcu":"F722","includes_esc":false,"gyro":"MPU6000","uart_count":5,"cells_min":2,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Flywoo','GOKU F405 Mini','20x20', 3299, 5.8,
- '{"stack_mount_mm":"20","mcu":"F405","gyro":"ICM42688P","uart_count":4,"cells_min":2,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"20","mcu":"F405","includes_esc":false,"gyro":"ICM42688P","uart_count":4,"cells_min":2,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','Flywoo','GOKU H743','30.5x30.5', 8499, 11.5,
- '{"stack_mount_mm":"30.5","mcu":"H743","gyro":"ICM42688P","uart_count":7,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"H743","includes_esc":false,"gyro":"ICM42688P","uart_count":7,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 SELECT add_part('fpv','fc','BetaFPV','F4 1S 5A AIO Brushless','16x16', 3499, 4.5,
- '{"stack_mount_mm":"16","mcu":"F411","gyro":"MPU6000","uart_count":2,"cells_min":1,"cells_max":1,"has_blackbox":false}');
+ '{"stack_mount_mm":"16","mcu":"F411","includes_esc":true,"gyro":"MPU6000","uart_count":2,"cells_min":1,"cells_max":1,"has_blackbox":false}');
 SELECT add_part('fpv','fc','Foxeer','F722 V4 Flight Controller','30.5x30.5', 3899, 9.4,
- '{"stack_mount_mm":"30.5","mcu":"F722","gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
+ '{"stack_mount_mm":"30.5","mcu":"F722","includes_esc":false,"gyro":"ICM42688P","uart_count":6,"cells_min":3,"cells_max":6,"has_blackbox":true}');
 
 -- ---------------------------------------------------------------------
 -- ESCs
@@ -284,47 +284,52 @@ SELECT add_part('fpv','prop','HQProp','40mm 4-Blade','Set of 4', 219, 0.6,
 -- Video transmitters
 -- ---------------------------------------------------------------------
 SELECT add_part('fpv','vtx','RUSH','Tank Ultimate Plus','800mW', 3299, 9,
- '{"video_system":"analog","power_mw_max":800,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":800,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','RUSH','Tank II Pro','1.6W', 3899, 10,
- '{"video_system":"analog","power_mw_max":1600,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":1600,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','RUSH','Solo VTX','800mW', 2599, 6,
- '{"video_system":"analog","power_mw_max":800,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":800,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','TBS','Unify Pro32 Nano','800mW', 3999, 3,
- '{"video_system":"analog","power_mw_max":800,"mount_mm":"16","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":800,"mount_mm":"16","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','TBS','Unify Pro32 HV','2.5W', 4999, 9,
- '{"video_system":"analog","power_mw_max":2500,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":2500,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','TBS','Unify Evo','2.5W', 5499, 10,
- '{"video_system":"analog","power_mw_max":2500,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":2500,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','Walksnail','Avatar HD Pro Kit','1.2W', 15999, 22,
- '{"video_system":"digital","power_mw_max":1200,"mount_mm":"20","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
+ '{"video_system":"digital","includes_camera":true,"includes_antenna":true,"power_mw_max":1200,"mount_mm":"20","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','Walksnail','Avatar HD Mini 1S','700mW', 12999, 10,
- '{"video_system":"digital","power_mw_max":700,"mount_mm":"16","antenna_connector":"U.FL","cells_min":1,"cells_max":2}');
+ '{"video_system":"digital","includes_camera":true,"includes_antenna":true,"power_mw_max":700,"mount_mm":"16","antenna_connector":"U.FL","cells_min":1,"cells_max":2}');
 SELECT add_part('fpv','vtx','Walksnail','Moonlight Kit','1.2W', 18999, 24,
- '{"video_system":"digital","power_mw_max":1200,"mount_mm":"20","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
+ '{"video_system":"digital","includes_camera":true,"includes_antenna":true,"power_mw_max":1200,"mount_mm":"20","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','DJI','O3 Air Unit','700mW', 22900, 36,
- '{"video_system":"digital","power_mw_max":700,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"digital","includes_camera":true,"includes_antenna":true,"power_mw_max":700,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','DJI','O4 Air Unit Pro','700mW', 24900, 30,
- '{"video_system":"digital","power_mw_max":700,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"digital","includes_camera":true,"includes_antenna":true,"power_mw_max":700,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','HDZero','Race V3','350mW', 9999, 8,
- '{"video_system":"digital","power_mw_max":350,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"digital","includes_camera":false,"includes_antenna":false,"power_mw_max":350,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','HDZero','Freestyle V2','1W', 13999, 14,
- '{"video_system":"digital","power_mw_max":1000,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"digital","includes_camera":false,"includes_antenna":false,"power_mw_max":1000,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','HDZero','Whoop Lite','25mW', 6999, 4,
- '{"video_system":"digital","power_mw_max":25,"mount_mm":"16","antenna_connector":"U.FL","cells_min":1,"cells_max":2}');
+ '{"video_system":"digital","includes_camera":false,"includes_antenna":false,"power_mw_max":25,"mount_mm":"16","antenna_connector":"U.FL","cells_min":1,"cells_max":2}');
+-- The Vista is the modular half of the DJI ecosystem: a digital VTX that
+-- takes a separate Caddx camera, which is what the Polar and Nebula Pro
+-- in the camera list are for.
+SELECT add_part('fpv','vtx','Caddx','Vista','700mW', 17900, 30,
+ '{"video_system":"digital","includes_camera":false,"includes_antenna":true,"power_mw_max":700,"mount_mm":"20","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','AKK','Race Ranger','1.6W', 2999, 12,
- '{"video_system":"analog","power_mw_max":1600,"mount_mm":"20","antenna_connector":"SMA","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":1600,"mount_mm":"20","antenna_connector":"SMA","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','AKK','FX2 Ultimate','1.2W', 1999, 8,
- '{"video_system":"analog","power_mw_max":1200,"mount_mm":"20","antenna_connector":"SMA","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":1200,"mount_mm":"20","antenna_connector":"SMA","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','Foxeer','Reaper Extreme','2.5W', 4499, 11,
- '{"video_system":"analog","power_mw_max":2500,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":2500,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','Foxeer','Nano VTX','400mW', 1799, 2.8,
- '{"video_system":"analog","power_mw_max":400,"mount_mm":"16","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":400,"mount_mm":"16","antenna_connector":"U.FL","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','HappyModel','OVX300','300mW', 1899, 3,
- '{"video_system":"analog","power_mw_max":300,"mount_mm":"25.5","antenna_connector":"U.FL","cells_min":1,"cells_max":2}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":300,"mount_mm":"25.5","antenna_connector":"U.FL","cells_min":1,"cells_max":2}');
 SELECT add_part('fpv','vtx','SpeedyBee','TX800','800mW', 2499, 8,
- '{"video_system":"analog","power_mw_max":800,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":800,"mount_mm":"20","antenna_connector":"MMCX","cells_min":2,"cells_max":6}');
 SELECT add_part('fpv','vtx','Eachine','TX805','800mW', 1699, 14,
- '{"video_system":"analog","power_mw_max":800,"mount_mm":"20","antenna_connector":"SMA","cells_min":2,"cells_max":6}');
+ '{"video_system":"analog","includes_camera":false,"includes_antenna":false,"power_mw_max":800,"mount_mm":"20","antenna_connector":"SMA","cells_min":2,"cells_max":6}');
 
 -- ---------------------------------------------------------------------
 -- FPV cameras
