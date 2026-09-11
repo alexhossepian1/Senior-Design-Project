@@ -36,8 +36,16 @@ app.get('/healthz', wrap(async (_req, res) => {
 
 app.get('/', (_req, res) => res.send(v.landingPage()));
 
+// Two steps into a build: pick where it operates, then pick what it is.
 app.get('/build', wrap(async (_req, res) => {
-  res.send(v.domainPage(await db.getDomains()));
+  res.send(v.familyPage(await db.getFamilies()));
+}));
+
+app.get('/build/:family', wrap(async (req, res) => {
+  const family = await db.getFamily(req.params.family);
+  if (!family) return res.status(404).send(v.errorPage('No such category.'));
+
+  res.send(v.domainPage(family, await db.getDomains(family.id)));
 }));
 
 app.get('/b/:domain', wrap(async (req, res) => {

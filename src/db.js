@@ -11,12 +11,48 @@ export const pool = new Pool({
 
 const q = async (text, params = []) => (await pool.query(text, params)).rows;
 
-export async function getDomains() {
-  return q('SELECT id, slug, name, blurb FROM domains ORDER BY sort_order');
+// Air / Ground / Water. The first choice on the way into a build.
+export async function getFamilies() {
+  return q(
+    `SELECT f.id, f.slug, f.name, f.blurb,
+            count(d.id)::int AS domain_count
+     FROM families f
+     LEFT JOIN domains d ON d.family_id = f.id
+     GROUP BY f.id
+     ORDER BY f.sort_order`
+  );
+}
+
+export async function getFamily(slug) {
+  const rows = await q('SELECT id, slug, name, blurb FROM families WHERE slug = $1', [slug]);
+  return rows[0] || null;
+}
+
+// Build types, optionally narrowed to one family. The category count comes
+// from the database so the chooser never claims a slot count the build
+// sheet does not actually have.
+export async function getDomains(familyId = null) {
+  return q(
+    `SELECT d.id, d.slug, d.name, d.blurb,
+            count(c.id)::int AS category_count
+     FROM domains d
+     LEFT JOIN categories c ON c.domain_id = d.id
+     WHERE ($1::smallint IS NULL OR d.family_id = $1)
+     GROUP BY d.id
+     ORDER BY d.sort_order`,
+    [familyId]
+  );
 }
 
 export async function getDomain(slug) {
-  const rows = await q('SELECT id, slug, name, blurb FROM domains WHERE slug = $1', [slug]);
+  const rows = await q(
+    `SELECT d.id, d.slug, d.name, d.blurb,
+            f.slug AS family_slug, f.name AS family_name
+     FROM domains d
+     JOIN families f ON f.id = d.family_id
+     WHERE d.slug = $1`,
+    [slug]
+  );
   return rows[0] || null;
 }
 

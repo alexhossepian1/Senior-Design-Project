@@ -88,7 +88,18 @@ docker compose exec db psql -U rcpp_app -d rcpp \
   -c "SET search_path TO rcpp; SELECT count(*) FROM variants;"
 ```
 
-You should get 72.
+You should get 1360, spread over 57 part types in 5 build types.
+
+The last seed file (`13_verify.sql`) prints a summary and warns about data
+problems as the database initialises. It never fails the load, so read it:
+
+```bash
+docker compose logs db | grep rcpp:
+```
+
+You want to see every part type at 20+ variants, no undefined spec keys, the
+`clean-*` demo builds at 0 errors and the `broken-*` ones with errors. A
+`clean-` build that starts reporting errors means a seed edit broke something.
 
 ## 6. The gotcha that will get you
 

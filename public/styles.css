@@ -15,8 +15,18 @@
   --ink-2: #59636e;
   --rule: #d3d8dd;
 
-  --drift: #d93a1e;
+  /* Accent encodes the build path. Hues are grouped by family: the air
+     builds are blues, the ground builds warm, water teal. */
   --fpv: #4a3fd4;
+  --plane: #2f6fd0;
+  --drift: #d93a1e;
+  --rccar: #c2661a;
+  --boat: #0f8080;
+
+  --fam-air: #3a5fd0;
+  --fam-ground: #d1441f;
+  --fam-water: #0f8080;
+
   --accent: #4a3fd4;
 
   --good: #17795a;
@@ -29,8 +39,11 @@
   --gut: clamp(1.25rem, 4vw, 3rem);
 }
 
-html[data-domain='drift'] { --accent: var(--drift); }
 html[data-domain='fpv']   { --accent: var(--fpv); }
+html[data-domain='plane'] { --accent: var(--plane); }
+html[data-domain='drift'] { --accent: var(--drift); }
+html[data-domain='rccar'] { --accent: var(--rccar); }
+html[data-domain='boat']  { --accent: var(--boat); }
 
 * { box-sizing: border-box; }
 
@@ -75,6 +88,8 @@ a { color: inherit; }
 
 .topbar--dark .wordmark { color: #fff; }
 
+.crumbs { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; }
+
 .crumbs a {
   font-size: 0.9rem;
   color: var(--ink-2);
@@ -84,6 +99,9 @@ a { color: inherit; }
 }
 
 .crumbs a:hover { color: var(--ink); border-color: currentColor; }
+
+.topbar--dark .crumbs a { color: #b9c2cb; border-color: #4a545f; }
+.topbar--dark .crumbs a:hover { color: #fff; border-color: currentColor; }
 
 /* ---- Hero ------------------------------------------------------- */
 
@@ -199,6 +217,9 @@ a { color: inherit; }
 
 @media (min-width: 48rem) { .paths { grid-template-columns: 1fr 1fr; } }
 
+/* Air / Ground / Water sit three across once there is room for it. */
+@media (min-width: 62rem) { .paths--three { grid-template-columns: repeat(3, 1fr); } }
+
 .path {
   display: block;
   padding: 2rem;
@@ -209,8 +230,15 @@ a { color: inherit; }
   transition: border-color 0.12s ease;
 }
 
-.path--drift { --pathc: var(--drift); }
 .path--fpv { --pathc: var(--fpv); }
+.path--plane { --pathc: var(--plane); }
+.path--drift { --pathc: var(--drift); }
+.path--rccar { --pathc: var(--rccar); }
+.path--boat { --pathc: var(--boat); }
+
+.path--fam-air { --pathc: var(--fam-air); }
+.path--fam-ground { --pathc: var(--fam-ground); }
+.path--fam-water { --pathc: var(--fam-water); }
 
 .path:hover { border-color: var(--pathc); }
 .path:focus-visible { outline: 3px solid var(--pathc); outline-offset: 3px; }

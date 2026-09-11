@@ -49,7 +49,7 @@ export function landingPage() {
   <div class="entries">
     <a class="entry entry--go" href="/build">
       <span class="entry__name">Custom build</span>
-      <p class="entry__desc">Start from an empty sheet and work down the list. Drift car or FPV drone.</p>
+      <p class="entry__desc">Start from an empty sheet and work down the list. Air, ground or water.</p>
       <span class="entry__cta">Start building</span>
     </a>
 
@@ -69,8 +69,85 @@ export function landingPage() {
 }
 
 /* ------------------------------------------------------------------ */
-/* Domain chooser                                                      */
+/* Family and domain choosers                                          */
 /* ------------------------------------------------------------------ */
+
+const AIR_ART = `
+<svg viewBox="0 0 220 140" class="art" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="110" cy="70" r="11"/>
+    <path d="M110 59c0-24 11-39 24-33s2 28-24 33z"/>
+    <path d="M110 81c0 24-11 39-24 33s-2-28 24-33z"/>
+    <path d="M121 70c24 0 39-11 33-24s-28-2-33 24z"/>
+    <path d="M99 70c-24 0-39 11-33 24s28 2 33-24z"/>
+  </g>
+  <g fill="currentColor"><circle cx="110" cy="70" r="4"/></g>
+</svg>`;
+
+const GROUND_ART = `
+<svg viewBox="0 0 220 140" class="art" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="110" cy="62" r="40"/>
+    <circle cx="110" cy="62" r="17"/>
+    <path d="M110 22v13M110 89v13M70 62h13M137 62h13"/>
+    <path d="M82 34l9 9M138 82l-9-9M138 34l-9 9M82 90l9-9"/>
+  </g>
+  <path d="M24 118h172" stroke="currentColor" stroke-width="2" opacity=".4"/>
+  <g fill="currentColor"><circle cx="110" cy="62" r="5"/></g>
+</svg>`;
+
+const WATER_ART = `
+<svg viewBox="0 0 220 140" class="art" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M58 60h76l28-15-28 34H58z"/>
+    <path d="M84 60c3-11 11-15 21-15h15"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="2" opacity=".45">
+    <path d="M22 96c18-8 36 8 54 0s36 8 54 0 36 8 54 0"/>
+    <path d="M22 112c18-8 36 8 54 0s36 8 54 0 36 8 54 0"/>
+    <path d="M22 128c18-8 36 8 54 0s36 8 54 0 36 8 54 0"/>
+  </g>
+</svg>`;
+
+const PLANE_ART = `
+<svg viewBox="0 0 220 140" class="art" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M110 20c6 0 10 8 10 18v62c0 10-4 18-10 18s-10-8-10-18V38c0-10 4-18 10-18z"/>
+    <path d="M100 58 24 76v10l76-8"/>
+    <path d="M120 58 196 76v10l-76-8"/>
+    <path d="M102 102 68 112v6l34-4"/>
+    <path d="M118 102 152 112v6l-34-4"/>
+    <path d="M86 16a28 28 0 0 1 48 0" opacity=".5"/>
+  </g>
+  <g fill="currentColor"><circle cx="110" cy="18" r="4"/></g>
+</svg>`;
+
+const BUGGY_ART = `
+<svg viewBox="0 0 220 140" class="art" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="58" cy="98" r="26"/>
+    <circle cx="162" cy="98" r="26"/>
+    <path d="M26 92c8-16 24-20 40-20h42c14 0 24-10 34-10h22c8 0 12 6 12 14v14"/>
+    <path d="M88 72 106 44h32l8 18"/>
+    <path d="M148 42h38v9h-38z"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="58" cy="98" r="7"/><circle cx="162" cy="98" r="7"/>
+  </g>
+</svg>`;
+
+const BOAT_ART = `
+<svg viewBox="0 0 220 140" class="art" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M26 58h116l46-18-46 46H26z"/>
+    <path d="M62 58c4-15 15-21 29-21h26"/>
+    <path d="M30 86v16M18 102h26"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="2" opacity=".4">
+    <path d="M16 118c16-6 32 6 48 0s32 6 48 0 32 6 48 0"/>
+    <path d="M16 130c16-6 32 6 48 0s32 6 48 0 32 6 48 0"/>
+  </g>
+</svg>`;
 
 const CHASSIS_ART = `
 <svg viewBox="0 0 220 140" class="art" aria-hidden="true">
@@ -105,37 +182,92 @@ const QUAD_ART = `
   </g>
 </svg>`;
 
-export function domainPage(domains) {
-  const art = { drift: CHASSIS_ART, fpv: QUAD_ART };
-  const detail = {
-    drift: ['1/10 scale', 'RWD and AWD', '12 part slots'],
-    fpv: ['3in to 7in', 'Analog and digital', '12 part slots'],
-  };
+const FAMILY_ART = { air: AIR_ART, ground: GROUND_ART, water: WATER_ART };
 
-  const panels = domains
+const DOMAIN_ART = {
+  fpv: QUAD_ART,
+  plane: PLANE_ART,
+  drift: CHASSIS_ART,
+  rccar: BUGGY_ART,
+  boat: BOAT_ART,
+};
+
+// Flavour text only. The part-slot count next to it is read from the
+// database so the chooser cannot promise a row the build sheet lacks.
+const DOMAIN_FACTS = {
+  fpv: ['3in to 7in', 'Analog and digital'],
+  plane: ['500mm to 2.3m', 'Foam and balsa'],
+  drift: ['1/10 and 1/24', 'RWD and AWD'],
+  rccar: ['1/10 and 1/8', 'Buggy to monster truck'],
+  boat: ['300mm to 1m', 'Mono, cat and tunnel'],
+};
+
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+
+/* Step one: where does it operate? */
+export function familyPage(families) {
+  const panels = families
     .map(
-      (d) => `
-    <a class="path path--${esc(d.slug)}" href="/b/${esc(d.slug)}">
-      ${art[d.slug] || ''}
-      <h2 class="path__name">${esc(d.name)}</h2>
-      <p class="path__blurb">${esc(d.blurb || '')}</p>
+      (f) => `
+    <a class="path path--fam-${esc(f.slug)}" href="/build/${esc(f.slug)}">
+      ${FAMILY_ART[f.slug] || ''}
+      <h2 class="path__name">${esc(f.name)}</h2>
+      <p class="path__blurb">${esc(f.blurb || '')}</p>
       <ul class="path__facts">
-        ${(detail[d.slug] || []).map((f) => `<li>${esc(f)}</li>`).join('')}
+        <li>${esc(plural(f.domain_count, 'build type'))}</li>
       </ul>
     </a>`
     )
     .join('');
 
   return layout({
-    title: 'Choose a build',
+    title: 'Choose a category',
     body: `
 <header class="topbar topbar--dark">
   <a class="wordmark" href="/">RC Part Picker</a>
 </header>
 
 <main class="choose">
-  <h1 class="choose__title">What are you building?</h1>
-  <p class="choose__lede">Each path has its own catalog. Parts never cross over.</p>
+  <h1 class="choose__title">Where does it run?</h1>
+  <p class="choose__lede">Pick a category, then the model you are building.</p>
+  <div class="paths paths--three">${panels}</div>
+</main>`,
+  });
+}
+
+/* Step two: which build type inside that family? */
+export function domainPage(family, domains) {
+  const panels = domains
+    .map(
+      (d) => `
+    <a class="path path--${esc(d.slug)}" href="/b/${esc(d.slug)}">
+      ${DOMAIN_ART[d.slug] || ''}
+      <h2 class="path__name">${esc(d.name)}</h2>
+      <p class="path__blurb">${esc(d.blurb || '')}</p>
+      <ul class="path__facts">
+        ${(DOMAIN_FACTS[d.slug] || []).map((f) => `<li>${esc(f)}</li>`).join('')}
+        <li>${esc(plural(d.category_count, 'part slot'))}</li>
+      </ul>
+    </a>`
+    )
+    .join('');
+
+  const empty = domains.length
+    ? ''
+    : `<p class="empty">Nothing in this category yet.</p>`;
+
+  return layout({
+    title: `${family.name} builds`,
+    body: `
+<header class="topbar topbar--dark">
+  <a class="wordmark" href="/">RC Part Picker</a>
+  <nav class="crumbs"><a href="/build">All categories</a></nav>
+</header>
+
+<main class="choose">
+  <h1 class="choose__title">${esc(family.name)}</h1>
+  <p class="choose__lede">Each build type has its own catalog. Parts never cross over.</p>
+  ${empty}
   <div class="paths">${panels}</div>
 </main>`,
   });
@@ -203,7 +335,10 @@ export function buildPage({ domain, sheet, issues, totals, missing }) {
     body: `
 <header class="topbar">
   <a class="wordmark" href="/">RC Part Picker</a>
-  <nav class="crumbs"><a href="/build">Change build type</a></nav>
+  <nav class="crumbs">
+    <a href="/build">All categories</a>
+    <a href="/build/${esc(domain.family_slug)}">${esc(domain.family_name)}</a>
+  </nav>
 </header>
 
 <main class="sheet">

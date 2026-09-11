@@ -9,17 +9,35 @@ SET search_path TO rcpp, public;
 
 -- ---------------------------------------------------------------------
 -- Taxonomy
+--
+-- Three levels, narrowing as you go:
+--
+--   family      Air / Ground / Water       -- where the thing operates
+--     domain    FPV Drone, RC Plane, ...   -- what you are building
+--       category  Frame, Motor, ESC, ...   -- rows of the build sheet
+--
+-- Adding a sixth build type, or a fourth family, is a data change. None
+-- of it is hardcoded in the app.
 -- ---------------------------------------------------------------------
 
--- The two build paths. Adding a third (e.g. RC crawler) is a data change,
--- not a schema change.
-CREATE TABLE domains (
+CREATE TABLE families (
     id          SMALLSERIAL PRIMARY KEY,
-    slug        TEXT NOT NULL UNIQUE,      -- 'fpv', 'drift'
+    slug        TEXT NOT NULL UNIQUE,      -- 'air', 'ground', 'water'
     name        TEXT NOT NULL,
     blurb       TEXT,
     sort_order  SMALLINT NOT NULL DEFAULT 0
 );
+
+CREATE TABLE domains (
+    id          SMALLSERIAL PRIMARY KEY,
+    family_id   SMALLINT NOT NULL REFERENCES families(id) ON DELETE CASCADE,
+    slug        TEXT NOT NULL UNIQUE,      -- 'fpv', 'plane', 'drift', ...
+    name        TEXT NOT NULL,
+    blurb       TEXT,
+    sort_order  SMALLINT NOT NULL DEFAULT 0
+);
+
+CREATE INDEX idx_domains_family ON domains(family_id);
 
 -- One row per line in the PCPartPicker-style build table.
 CREATE TABLE categories (

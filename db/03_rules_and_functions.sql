@@ -64,7 +64,67 @@ SELECT add_rule('fpv','camera','video_system','eq','vtx','video_system',FALSE,'e
   'Camera and VTX use different video systems. Analog cameras do not work with digital VTX.');
 
 -- =====================================================================
--- Drift rules
+-- RC plane rules
+-- =====================================================================
+
+-- Physical fit
+SELECT add_rule('plane','prop','diameter_in','lte','airframe','prop_size_max_in',TRUE,'error',
+  'Propeller is larger than this airframe has ground or fuselage clearance for.');
+SELECT add_rule('plane','motor','mount_pattern_mm','eq','airframe','motor_mount_mm',FALSE,'error',
+  'Motor bolt circle does not match the airframe firewall mount.');
+SELECT add_rule('plane','servo','size_class','eq','airframe','servo_size',FALSE,'error',
+  'Servo size class does not fit the airframe servo bays.');
+SELECT add_rule('plane','prop','shaft_hole_mm','eq','motor','shaft_mm',TRUE,'warning',
+  'Prop hub bore does not match the motor shaft. You will need the right adapter ring.');
+SELECT add_rule('plane','spinner','shaft_mm','eq','motor','shaft_mm',TRUE,'error',
+  'Prop adapter bore does not match the motor shaft diameter.');
+SELECT add_rule('plane','spinner','prop_hole_mm','eq','prop','shaft_hole_mm',TRUE,'warning',
+  'Prop adapter output does not match the propeller hub bore.');
+
+-- Battery bay
+SELECT add_rule('plane','battery','length_mm','lte','airframe','battery_bay_len_mm',TRUE,'error',
+  'Battery is too long for the airframe battery bay.');
+SELECT add_rule('plane','battery','width_mm','lte','airframe','battery_bay_wid_mm',TRUE,'error',
+  'Battery is too wide for the airframe battery bay.');
+SELECT add_rule('plane','battery','height_mm','lte','airframe','battery_bay_hgt_mm',TRUE,'error',
+  'Battery is too tall for the airframe battery bay.');
+
+-- Voltage / cell count
+SELECT add_rule('plane','battery','cells','gte','esc','cells_min',TRUE,'error',
+  'Battery cell count is below the ESC minimum.');
+SELECT add_rule('plane','battery','cells','lte','esc','cells_max',TRUE,'error',
+  'Battery cell count exceeds the ESC maximum. This will destroy the ESC.');
+SELECT add_rule('plane','battery','cells','lte','motor','cells_max',TRUE,'error',
+  'Battery cell count exceeds the motor maximum voltage rating.');
+SELECT add_rule('plane','battery','cells','gte','motor','cells_min',TRUE,'warning',
+  'Battery cell count is below the motor recommended minimum. Expect poor vertical performance.');
+SELECT add_rule('plane','battery','cells','lte','airframe','cells_max',TRUE,'warning',
+  'Battery cell count is above what this airframe is designed around. Watch the airframe speed limit.');
+SELECT add_rule('plane','battery','cells','gte','airframe','cells_min',TRUE,'warning',
+  'Battery cell count is below the airframe recommended power system.');
+
+-- Current headroom
+SELECT add_rule('plane','motor','max_current_a','lte','esc','continuous_current_a',TRUE,'warning',
+  'Motor peak current exceeds the ESC continuous rating. Add headroom or expect thermal cutouts.');
+
+-- BEC / radio power
+SELECT add_rule('plane','esc','bec_voltage_v','lte','servo','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the servo maximum. This will cook the servos.');
+SELECT add_rule('plane','esc','bec_voltage_v','gte','servo','voltage_min_v',TRUE,'warning',
+  'ESC BEC output is below the servo rated range. Torque and centering will suffer.');
+SELECT add_rule('plane','esc','bec_voltage_v','lte','receiver','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the receiver maximum input voltage.');
+SELECT add_rule('plane','esc','bec_voltage_v','lte','stabilizer','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the stabilizer maximum input voltage.');
+SELECT add_rule('plane','stabilizer','channels','lte','receiver','channels',TRUE,'warning',
+  'The stabilizer expects more channels than the receiver provides.');
+
+-- Wiring
+SELECT add_rule('plane','battery','connector','eq','esc','connector',FALSE,'warning',
+  'Battery and ESC connectors differ. You will need an adapter or to re-solder.');
+
+-- =====================================================================
+-- RC drift car rules
 -- =====================================================================
 
 -- Drivetrain fit
@@ -120,6 +180,131 @@ SELECT add_rule('drift','body','wheelbase_mm','eq','chassis','wheelbase_mm',TRUE
   'Body wheelbase differs from the chassis. Most chassis adjust, but check before drilling.');
 SELECT add_rule('drift','body','scale','eq','chassis','scale',FALSE,'error',
   'Body scale does not match the chassis scale.');
+
+-- =====================================================================
+-- RC car rules
+-- =====================================================================
+
+-- Drivetrain fit
+SELECT add_rule('rccar','motor','can_size','eq','chassis','motor_mount_can',FALSE,'error',
+  'Motor can size does not fit this chassis motor mount.');
+SELECT add_rule('rccar','pinion','bore_mm','eq','motor','shaft_mm',TRUE,'error',
+  'Pinion bore does not match the motor shaft diameter.');
+SELECT add_rule('rccar','pinion','pitch','eq','spur','pitch',FALSE,'error',
+  'Pinion and spur gear pitch do not match. The gears will not mesh.');
+SELECT add_rule('rccar','spur','pitch','eq','chassis','spur_pitch',FALSE,'warning',
+  'Spur pitch differs from the chassis stock pitch. Check the gear cover clearance.');
+
+-- Rolling stock
+SELECT add_rule('rccar','wheel','hex_mm','eq','chassis','wheel_hex_mm',TRUE,'error',
+  'Wheel hex size does not match the chassis axle hexes.');
+SELECT add_rule('rccar','wheel','wheel_class','eq','chassis','vehicle_class',FALSE,'error',
+  'These wheels are made for a different vehicle class than the chassis.');
+SELECT add_rule('rccar','tire','wheel_diameter_mm','eq','wheel','diameter_mm',TRUE,'error',
+  'Tire inner diameter does not match the selected wheel diameter.');
+SELECT add_rule('rccar','tire','width_mm','eq','wheel','width_mm',TRUE,'warning',
+  'Tire width differs from the wheel width. The bead may not seat cleanly.');
+
+-- Electrical
+SELECT add_rule('rccar','battery','cells','gte','esc','cells_min',TRUE,'error',
+  'Battery cell count is below the ESC minimum.');
+SELECT add_rule('rccar','battery','cells','lte','esc','cells_max',TRUE,'error',
+  'Battery cell count exceeds the ESC maximum.');
+SELECT add_rule('rccar','battery','cells','lte','motor','cells_max',TRUE,'error',
+  'Battery cell count exceeds the motor voltage rating.');
+SELECT add_rule('rccar','battery','cells','gte','motor','cells_min',TRUE,'warning',
+  'Battery cell count is below the motor recommended minimum. The car will feel flat.');
+SELECT add_rule('rccar','motor','max_current_a','lte','esc','continuous_current_a',TRUE,'warning',
+  'Motor peak current exceeds the ESC continuous rating.');
+SELECT add_rule('rccar','motor','motor_type','eq','esc','motor_type',FALSE,'error',
+  'ESC does not support this motor type. A sensored motor needs a sensored ESC.');
+SELECT add_rule('rccar','battery','connector','eq','esc','connector',FALSE,'warning',
+  'Battery and ESC connectors differ. You will need an adapter or to re-solder.');
+SELECT add_rule('rccar','esc','bec_voltage_v','lte','servo','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the servo maximum. This will cook the servo.');
+SELECT add_rule('rccar','esc','bec_voltage_v','gte','servo','voltage_min_v',TRUE,'warning',
+  'ESC BEC output is below the servo rated range. Steering will feel slow and weak.');
+SELECT add_rule('rccar','esc','bec_voltage_v','lte','receiver','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the receiver maximum input voltage.');
+
+-- Mechanical fit
+SELECT add_rule('rccar','servo','size_class','eq','chassis','servo_size',FALSE,'error',
+  'Servo size class does not fit the chassis servo mount.');
+SELECT add_rule('rccar','battery','length_mm','lte','chassis','battery_bay_len_mm',TRUE,'error',
+  'Battery is too long for the chassis battery bay.');
+SELECT add_rule('rccar','battery','width_mm','lte','chassis','battery_bay_wid_mm',TRUE,'error',
+  'Battery is too wide for the chassis battery bay.');
+SELECT add_rule('rccar','battery','height_mm','lte','chassis','battery_bay_hgt_mm',TRUE,'error',
+  'Battery is too tall for the chassis battery bay.');
+
+-- Body
+SELECT add_rule('rccar','body','vehicle_class','eq','chassis','vehicle_class',FALSE,'error',
+  'Body is cut for a different vehicle class than the chassis.');
+SELECT add_rule('rccar','body','scale','eq','chassis','scale',FALSE,'error',
+  'Body scale does not match the chassis scale.');
+SELECT add_rule('rccar','body','wheelbase_mm','eq','chassis','wheelbase_mm',TRUE,'warning',
+  'Body wheelbase differs from the chassis. Check the body post positions before drilling.');
+
+-- =====================================================================
+-- RC boat rules
+-- =====================================================================
+
+-- Running gear. This is the chain that catches people out: motor to
+-- coupler to shaft to prop, with the hull dictating the shaft size.
+SELECT add_rule('boat','motor','can_size','eq','hull','motor_can',FALSE,'error',
+  'Motor can size does not fit the hull motor mount.');
+SELECT add_rule('boat','shaft','shaft_dia_mm','eq','hull','shaft_dia_mm',TRUE,'error',
+  'Drive shaft diameter does not match the hull stuffing tube.');
+SELECT add_rule('boat','shaft','motor_coupler_mm','eq','motor','shaft_mm',TRUE,'error',
+  'Shaft coupler bore does not match the motor shaft diameter.');
+SELECT add_rule('boat','prop','bore_mm','eq','shaft','collet_bore_mm',TRUE,'error',
+  'Propeller bore does not match the drive shaft collet.');
+SELECT add_rule('boat','prop','diameter_mm','lte','hull','prop_size_max_mm',TRUE,'error',
+  'Propeller is larger than the hull tunnel and strut have clearance for.');
+SELECT add_rule('boat','rudder','transom_width_mm','lte','hull','transom_width_mm',TRUE,'warning',
+  'Rudder bracket is wider than the hull transom. Check the mounting before you drill.');
+SELECT add_rule('boat','rudder','style','eq','hull','rudder_style',FALSE,'warning',
+  'Rudder style is not what this hull is set up for. Expect to re-trim the transom.');
+
+-- Electrical
+SELECT add_rule('boat','battery','cells','gte','esc','cells_min',TRUE,'error',
+  'Battery cell count is below the ESC minimum.');
+SELECT add_rule('boat','battery','cells','lte','esc','cells_max',TRUE,'error',
+  'Battery cell count exceeds the ESC maximum.');
+SELECT add_rule('boat','battery','cells','lte','motor','cells_max',TRUE,'error',
+  'Battery cell count exceeds the motor voltage rating.');
+SELECT add_rule('boat','battery','cells','gte','motor','cells_min',TRUE,'warning',
+  'Battery cell count is below the motor recommended minimum. The hull may not get on plane.');
+SELECT add_rule('boat','battery','cells','lte','hull','cells_max',TRUE,'warning',
+  'Battery cell count is above what this hull is rated for. Expect stability problems at speed.');
+SELECT add_rule('boat','motor','max_current_a','lte','esc','continuous_current_a',TRUE,'warning',
+  'Motor peak current exceeds the ESC continuous rating.');
+SELECT add_rule('boat','motor','motor_type','eq','esc','motor_type',FALSE,'error',
+  'ESC does not support this motor type.');
+SELECT add_rule('boat','battery','connector','eq','esc','connector',FALSE,'warning',
+  'Battery and ESC connectors differ. You will need an adapter or to re-solder.');
+SELECT add_rule('boat','esc','bec_voltage_v','lte','servo','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the servo maximum. This will cook the servo.');
+SELECT add_rule('boat','esc','bec_voltage_v','gte','servo','voltage_min_v',TRUE,'warning',
+  'ESC BEC output is below the servo rated range. Rudder response will be sluggish.');
+SELECT add_rule('boat','esc','bec_voltage_v','lte','receiver','voltage_max_v',TRUE,'error',
+  'ESC BEC output voltage exceeds the receiver maximum input voltage.');
+
+-- Cooling. Both halves of the loop have to agree or one of them boils.
+-- Note this is a text comparison of two booleans, which is exactly what
+-- we want: it fires whenever one is cooled and the other is not.
+SELECT add_rule('boat','motor','is_watercooled','eq','esc','is_watercooled',FALSE,'warning',
+  'Motor and ESC cooling types differ. Plumb both into the same loop or one of them will overheat.');
+
+-- Hull fit
+SELECT add_rule('boat','servo','size_class','eq','hull','servo_size',FALSE,'error',
+  'Servo size class does not fit the hull servo tray.');
+SELECT add_rule('boat','battery','length_mm','lte','hull','battery_bay_len_mm',TRUE,'error',
+  'Battery is too long for the hull battery tray.');
+SELECT add_rule('boat','battery','width_mm','lte','hull','battery_bay_wid_mm',TRUE,'error',
+  'Battery is too wide for the hull battery tray.');
+SELECT add_rule('boat','battery','height_mm','lte','hull','battery_bay_hgt_mm',TRUE,'error',
+  'Battery is too tall to sit under the hull hatch.');
 
 -- =====================================================================
 -- Evaluation engine
